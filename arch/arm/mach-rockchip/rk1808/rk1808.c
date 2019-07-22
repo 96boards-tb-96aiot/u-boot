@@ -56,6 +56,18 @@ enum {
 	GPIO4A2_SDMMC0_D0,
 	GPIO4A2_UART2_TX_M0,
 
+	GPIO2D1_SHIFT           = 4,
+        GPIO2D1_MASK            = GENMASK(7, 4),
+        GPIO2D1_GPIO            = 0,
+        GPIO2D1_I2C3_SDA,
+        GPIO2D1_UART2_RX_M1,
+
+        GPIO2D0_SHIFT           = 0,
+        GPIO2D0_MASK            = GENMASK(3, 0),
+        GPIO2D0_GPIO            = 0,
+        GPIO2D0_I2C3_SCL,
+        GPIO2D0_UART2_TX_M1,
+
 	UART2_IO_SEL_SHIFT	= 14,
 	UART2_IO_SEL_MASK	= GENMASK(15, 14),
 	UART2_IO_SEL_M0		= 0,
@@ -75,22 +87,23 @@ int arch_cpu_init(void)
 
 /*
  * Default use UART2_TX/RX_M0(TX: GPIO4_A2, RX: GPIO4_A3)
+ * Modified to use UART2_TX/RX_M1(TX:GPIO2_D0, RX:GPIO2_D1)
  */
 void board_debug_uart_init(void)
 {
-#ifdef CONFIG_TPL_BUILD
+//#ifdef CONFIG_TPL_BUILD
 	static struct rk1808_grf * const grf = (void *)GRF_BASE;
 
-	/* Enable early UART2 channel m0 on the rk1808 */
+	/* Enable early UART2 channel m1 on the rk1808 */
 	rk_clrsetreg(&grf->iofunc_con0, UART2_IO_SEL_MASK,
-		     UART2_IO_SEL_M0 << UART2_IO_SEL_SHIFT);
+		     UART2_IO_SEL_M1 << UART2_IO_SEL_SHIFT);
 
 	/* Switch iomux */
-	rk_clrsetreg(&grf->gpio4a_iomux_l,
-		     GPIO4A3_MASK | GPIO4A2_MASK,
-		     GPIO4A2_UART2_TX_M0 << GPIO4A2_SHIFT |
-		     GPIO4A3_UART2_RX_M0 << GPIO4A3_SHIFT);
-#endif
+	rk_clrsetreg(&grf->gpio2d_iomux_l,
+		     GPIO2D0_MASK | GPIO2D1_MASK,
+		     GPIO2D0_UART2_TX_M1 << GPIO2D0_SHIFT |
+		     GPIO2D1_UART2_RX_M1 << GPIO2D1_SHIFT);
+//#endif
 }
 
 #if !defined(CONFIG_SPL_BUILD) && !defined(CONFIG_COPROCESSOR_RK1808)

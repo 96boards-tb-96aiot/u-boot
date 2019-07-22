@@ -647,7 +647,7 @@
 		dmas = <&dmac 4>, <&dmac 5>;
 		dma-names = "tx", "rx";
 		pinctrl-names = "default";
-		pinctrl-0 = <&uart2m0_xfer>;
+		pinctrl-0 = <&uart2m1_xfer>;
 		status = "disabled";
 	};
 
