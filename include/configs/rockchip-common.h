@@ -117,6 +117,10 @@
 		"setenv devtype mmc; setenv devnum 0;" \
 	"elif mtd_blk dev 0; then " \
 		"setenv devtype mtd; setenv devnum 0;" \
+	"elif mtd_blk dev 1; then " \
+		"setenv devtype mtd; setenv devnum 1;" \
+	"elif mtd_blk dev 2; then " \
+		"setenv devtype mtd; setenv devnum 2;" \
 	"elif rknand dev 0; then " \
 		"setenv devtype rknand; setenv devnum 0;" \
 	"elif rksfc dev 0; then " \

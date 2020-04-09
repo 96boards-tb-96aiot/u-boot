@@ -522,6 +522,13 @@ ulong bootm_disable_interrupts(void)
 	ulong iflag;
 
 	/*
+	 * Do not go further if usb is boot device,
+	 * We may access usb at late sequence.
+	 */
+	if (!strcmp(env_get("devtype"), "usb"))
+		return 0;
+
+	/*
 	 * We have reached the point of no return: we are going to
 	 * overwrite all exception vector code, so we cannot easily
 	 * recover from any failures any more...
@@ -725,6 +732,8 @@ int do_bootm_states(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[],
 		if (images->os.os == IH_OS_LINUX)
 			fixup_silent_linux();
 #endif
+		arch_preboot_os(BOOTM_STATE_OS_PREP);
+
 		ret = boot_fn(BOOTM_STATE_OS_PREP, argc, argv, images);
 	}
 

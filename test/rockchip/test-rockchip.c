@@ -9,9 +9,11 @@
 #include "test-rockchip.h"
 
 extern struct cmd_group cmd_grp_boot;
-extern struct cmd_group cmd_grp_display;
 extern struct cmd_group cmd_grp_download;
+#ifdef CONFIG_RKIMG_BOOTLOADER
+extern struct cmd_group cmd_grp_display;
 extern struct cmd_group cmd_grp_misc;
+#endif
 extern struct cmd_group cmd_grp_net;
 extern struct cmd_group cmd_grp_power;
 extern struct cmd_group cmd_grp_storage;
@@ -42,9 +44,11 @@ static const struct cmd_group *cmd_groups[] = {
 	&cmd_grp_boot,
 	&cmd_grp_storage,
 	&cmd_grp_power,
-	&cmd_grp_misc,
 	&cmd_grp_net,
+#ifdef CONFIG_RKIMG_BOOTLOADER
+	&cmd_grp_misc,
 	&cmd_grp_display,
+#endif
 };
 
 static int cmd_groups_help(void)
@@ -53,7 +57,7 @@ static int cmd_groups_help(void)
 
 	printf("* Test Case:\n");
 	printf("    -.: normal item\n");
-	printf("    -n: noturen item\n");
+	printf("    -n: noreturn item\n");
 	printf("    -i: interactive item\n\n");
 
 	printf("* ALL:\n");
@@ -118,6 +122,8 @@ static int do_rockchip_test(cmd_tbl_t *cmdtp, int flag,
 			else if (!strcmp(argv[1], CMD_MODE_V3))
 				skip_mode = TEST_SKIP_NORETURN_INTERACTIVE;
 		}
+		/* rktest all has no valid parameter */
+		argc = 1;
 		goto all_test;
 	} else {
 		if (!strcmp(argv[0], "storage"))
@@ -178,11 +184,11 @@ all_test:
 			}
 
 			printf("### Start [%s]\n", cp->name);
-
+#ifdef CONFIG_RKIMG_BOOTLOADER
 			/* Flush console */
 			if (cmd_groups[i]->id == TEST_ID_DOWNLOAD)
 				flushc();
-
+#endif
 			/* Execute command */
 			ret = cp->cmd(cmdtp, flag, argc, argv);
 			if (ret) {

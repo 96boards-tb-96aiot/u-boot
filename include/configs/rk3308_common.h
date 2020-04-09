@@ -22,6 +22,7 @@
 #define CONFIG_SPL_MAX_SIZE		0x20000
 #define CONFIG_SPL_BSS_START_ADDR	0x00400000
 #define CONFIG_SPL_BSS_MAX_SIZE		0x2000
+#define CONFIG_SYS_SPI_U_BOOT_OFFS	0x8000
 
 #define CONFIG_SYS_NS16550_MEM32
 
@@ -72,7 +73,7 @@
 	"fdt_addr_r=0x02f00000\0" \
 	"kernel_addr_r=0x00058000\0" \
 	"kernel_addr_c=0x2008000\0" \
-	"ramdisk_addr_r=0x03080000\0"
+	"ramdisk_addr_r=0x02880000\0"
 #endif
 
 #include <config_distro_bootcmd.h>

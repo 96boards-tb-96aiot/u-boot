@@ -122,6 +122,7 @@ obj-$(CONFIG_CMD_NVME) += nvme.o
 obj-$(CONFIG_CMD_ROCKUSB) += rockusb.o
 obj-$(CONFIG_CMD_RKNAND) += rknand.o
 obj-$(CONFIG_CMD_RKSFC) += rksfc.o
+obj-$(CONFIG_CMD_RK_SECURE_STORAGE) += rk_secure_storage.o
 obj-$(CONFIG_CMD_SF) += sf.o
 obj-$(CONFIG_CMD_SCSI) += scsi.o disk.o
 obj-$(CONFIG_CMD_SHA1SUM) += sha1sum.o
@@ -167,6 +168,8 @@ obj-$(CONFIG_CMD_REGULATOR) += regulator.o
 obj-$(CONFIG_CMD_DVFS) += dvfs.o
 
 obj-$(CONFIG_CMD_BLOB) += blob.o
+
+obj-$(CONFIG_ARCH_ROCKCHIP) += rkimgtest.o
 endif # !CONFIG_SPL_BUILD
 
 # core command
